@@ -1,0 +1,16 @@
+{
+  "name": "labmate-yanshu",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "研数搭子：把一个科研问题，变成一份可复现的数据分析。",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "node --test",
+    "test:smoke": "node scripts/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f8fc" />
+    <meta
+      name="description"
+      content="研数搭子：把一个科研问题，变成一份可复现的数据分析。公开数据本地处理，受控工具真实执行，报告证据可追溯。"
+    />
+    <title>研数搭子 LabMate · 可复现的科研数据分析</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#workbench">跳到研究工作台</a>
+
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+      <symbol id="icon-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h13M13 6l6 6-6 6" />
+      </symbol>
+      <symbol id="icon-upload" viewBox="0 0 24 24">
+        <path d="M12 16V4m0 0L7 9m5-5 5 5" />
+        <path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15" />
+      </symbol>
+      <symbol id="icon-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="5" rx="7.5" ry="3" />
+        <path d="M4.5 5v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V5" />
+        <path d="M4.5 11v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6" />
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="m5 12.5 4.3 4.2L19 7" />
+      </symbol>
+      <symbol id="icon-check-circle" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="m8.4 12.2 2.4 2.4 4.9-5" />
+      </symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24">
+        <path d="M12 3.5 5 6v5.2c0 4.2 2.8 7.8 7 9.3 4.2-1.5 7-5.1 7-9.3V6l-7-2.5Z" />
+        <path d="m9 12 2 2 4-4" />
+      </symbol>
+      <symbol id="icon-lock" viewBox="0 0 24 24">
+        <rect x="5" y="10" width="14" height="10" rx="2.5" />
+        <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10" />
+      </symbol>
+      <symbol id="icon-code" viewBox="0 0 24 24">
+        <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" />
+      </symbol>
+      <symbol id="icon-chart" viewBox="0 0 24 24">
+        <path d="M4 19.5h16" />
+        <path d="M6.5 16V9.5M11.5 16V5.5M16.5 16v-4" />
+        <path d="m5 6 4.2-2 4.3 2.3L19 3.5" />
+      </symbol>
+      <symbol id="icon-file" viewBox="0 0 24 24">
+        <path d="M6.5 3.5h7l4 4v13h-11v-17Z" />
+        <path d="M13.5 3.5v4h4M9 12h6M9 16h6" />
+      </symbol>
+      <symbol id="icon-spark" viewBox="0 0 24 24">
+        <path d="M12 2.8c.6 4.8 3.4 7.6 8.2 8.2-4.8.6-7.6 3.4-8.2 8.2-.6-4.8-3.4-7.6-8.2-8.2 4.8-.6 7.6-3.4 8.2-8.2Z" />
+      </symbol>
+      <symbol id="icon-play" viewBox="0 0 24 24">
+        <path d="m9 6 9 6-9 6V6Z" />
+      </symbol>
+      <symbol id="icon-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="icon-chevron" viewBox="0 0 24 24">
+        <path d="m8 10 4 4 4-4" />
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24">
+        <path d="M12 4v11m0 0 4-4m-4 4-4-4" />
+        <path d="M5 19h14" />
+      </symbol>
+      <symbol id="icon-printer" viewBox="0 0 24 24">
+        <path d="M7 8V4h10v4" />
+        <rect x="4" y="8" width="16" height="8" rx="2" />
+        <path d="M7 13h10v7H7v-7Z" />
+      </symbol>
+      <symbol id="icon-external" viewBox="0 0 24 24">
+        <path d="M14 5h5v5M19 5l-8 8" />
+        <path d="M18 14v4a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 18V8a1.5 1.5 0 0 1 1.5-1.5H11" />
+      </symbol>
+      <symbol id="icon-refresh" viewBox="0 0 24 24">
+        <path d="M19 8.5A8 8 0 1 0 20 14" />
+        <path d="M19 3v6h-6" />
+      </symbol>
+      <symbol id="icon-tool" viewBox="0 0 24 24">
+        <path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-3 3-3-3 3-3Z" />
+      </symbol>
+      <symbol id="icon-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M12 11v5M12 8h.01" />
+      </symbol>
+      <symbol id="icon-warning" viewBox="0 0 24 24">
+        <path d="M12 3.8 21 20H3L12 3.8Z" />
+        <path d="M12 9v5M12 17h.01" />
+      </symbol>
+      <symbol id="icon-flower" viewBox="0 0 24 24">
+        <path d="M12 12c-5.5 0-6.4-6.7-1.8-7.6C12 4.2 12 7.7 12 7.7s0-3.5 1.8-3.3C18.4 5.3 17.5 12 12 12Z" />
+        <path d="M12 12c0 5.5-6.7 6.4-7.6 1.8C4.2 12 7.7 12 7.7 12s-3.5 0-3.3-1.8C5.3 5.6 12 6.5 12 12Z" />
+        <path d="M12 12c5.5 0 6.4 6.7 1.8 7.6C12 19.8 12 16.3 12 16.3s0 3.5-1.8 3.3C5.6 18.7 6.5 12 12 12Z" />
+        <path d="M12 12c0-5.5 6.7-6.4 7.6-1.8C19.8 12 16.3 12 16.3 12s3.5 0 3.3 1.8C18.7 18.4 12 17.5 12 12Z" />
+        <circle cx="12" cy="12" r="2.2" />
+      </symbol>
+      <symbol id="icon-table" viewBox="0 0 24 24">
+        <rect x="4" y="5" width="16" height="14" rx="2" />
+        <path d="M4 10h16M9.5 10v9M15 10v9" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="10.5" cy="10.5" r="6" />
+        <path d="m15 15 5 5" />
+      </symbol>
+      <symbol id="icon-help" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M9.7 9.3a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.1.9-1.1 1.8M12 16.7h.01" />
+      </symbol>
+    </svg>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="研数搭子首页">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M6 16.5V12M11 16.5V6.8M16 16.5V9.6M21 16.5V4.5" />
+              <path d="m4 9 4-3 5 2.2 6-4" class="brand-spark" />
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>研数搭子</strong>
+            <small>LABMATE / RESEARCH COPILOT</small>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#workbench" class="is-active">工作台</a>
+          <a href="#method">方法与边界</a>
+          <a href="#data-source">数据来源</a>
+        </nav>
+
+        <div class="header-actions">
+          <span class="privacy-badge" title="原始 CSV 行不会发送给模型">
+            <svg class="icon" aria-hidden="true"><use href="#icon-lock"></use></svg>
+            本机处理
+          </span>
+          <span class="mode-badge is-loading" id="mode-badge">
+            <span class="mode-dot"></span>
+            <span id="mode-badge-text">连接中</span>
+          </span>
+          <button class="icon-button" id="help-open" type="button" aria-label="打开使用说明">
+            <svg class="icon" aria-hidden="true"><use href="#icon-help"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            中山大学第一届智能体（Agent）开发竞赛
+            <span class="eyebrow-sep"></span>
+            科研赛道 · 实验与数据分析
+          </div>
+          <h1 id="hero-title">
+            把一个科研问题，<br />变成一份<span class="accent">可复现</span>的数据分析。
+          </h1>
+          <p class="hero-lede">
+            研数搭子先检查数据，再制定分析计划，调用受控统计工具，复核每一项结果，最后生成带证据链的报告。
+            不执行模型生成的代码，也不把原始数据行交给模型。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#workbench">
+              开始一次分析
+              <span class="button-icon">
+                <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+              </span>
+            </a>
+            <button class="button button-ghost" id="how-open" type="button">
+              它是怎么工作的
+            </button>
+          </div>
+          <ul class="trust-strip" aria-label="产品关键约束">
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check-circle"></use></svg>受控工具注册表</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check-circle"></use></svg>原始数据不发送给模型</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check-circle"></use></svg>数字结论可回溯</li>
+          </ul>
+        </div>
+
+        <aside class="hero-panel" aria-label="Agent 分析流程示意">
+          <div class="hero-panel-top">
+            <span class="mono-kicker">CONTROLLED ANALYSIS</span>
+            <span class="panel-live"><i></i>证据优先</span>
+          </div>
+          <div class="hero-question">
+            <span class="quote-mark">“</span>
+            <p>不同品种的花瓣长度有差异吗？</p>
+            <span class="hero-question-tag">示例研究问题</span>
+          </div>
+          <div class="hero-flow" aria-hidden="true">
+            <div class="hero-flow-step">
+              <span class="flow-index">01</span>
+              <span class="flow-icon"><svg class="icon"><use href="#icon-search"></use></svg></span>
+              <div><strong>检查数据</strong><small>字段 · 缺失 · 重复记录</small></div>
+            </div>
+            <span class="flow-line"></span>
+            <div class="hero-flow-step">
+              <span class="flow-index">02</span>
+              <span class="flow-icon"><svg class="icon"><use href="#icon-tool"></use></svg></span>
+              <div><strong>受控工具执行</strong><small>真实统计计算，而非文本生成</small></div>
+            </div>
+            <span class="flow-line"></span>
+            <div class="hero-flow-step">
+              <span class="flow-index">03</span>
+              <span class="flow-icon"><svg class="icon"><use href="#icon-check-circle"></use></svg></span>
+              <div><strong>结果复核</strong><small>均值与相关独立复算</small></div>
+            </div>
+            <span class="flow-line"></span>
+            <div class="hero-flow-step">
+              <span class="flow-index">04</span>
+              <span class="flow-icon"><svg class="icon"><use href="#icon-file"></use></svg></span>
+              <div><strong>可追溯报告</strong><small>图表 · 参数 · 工具原始输出</small></div>
+            </div>
+          </div>
+          <div class="hero-panel-foot">
+            <span><svg class="icon" aria-hidden="true"><use href="#icon-shield"></use></svg>原始行不出本机</span>
+            <span><svg class="icon" aria-hidden="true"><use href="#icon-code"></use></svg>不执行生成代码</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="workbench" id="workbench" aria-labelledby="workbench-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">WORKBENCH / 研究工作台</p>
+            <h2 id="workbench-title">从一份公开数据开始</h2>
+          </div>
+          <div class="workbench-status">
+            <span class="service-state" id="service-state"><i></i>本地分析服务</span>
+            <span class="session-note">会话仅存于本机内存</span>
+          </div>
+        </div>
+
+        <div class="workspace-grid">
+          <aside class="input-stack" aria-label="输入区">
+            <section class="panel data-panel" id="data-panel" aria-labelledby="data-title">
+              <header class="panel-header">
+                <div class="panel-title">
+                  <span class="step-number">01</span>
+                  <div>
+                    <p class="panel-kicker">DATA INPUT</p>
+                    <h2 id="data-title">数据输入</h2>
+                  </div>
+                </div>
+                <span class="state-chip state-idle" id="data-state">未载入</span>
+              </header>
+              <div class="panel-body">
+                <div id="data-chooser">
+                  <div class="block-label-row">
+                    <span>内置公开示例</span>
+                    <span class="source-inline">UCI · CC BY 4.0</span>
+                  </div>
+                  <div class="sample-card" id="sample-card" aria-busy="true">
+                    <div class="sample-icon">
+                      <svg class="icon" aria-hidden="true"><use href="#icon-flower"></use></svg>
+                    </div>
+                    <div class="sample-body">
+                      <div class="sample-title-row">
+                        <h3 id="sample-title">Iris 鸢尾花数据集</h3>
+                        <span class="tag">公开</span>
+                      </div>
+                      <p id="sample-description">正在读取示例元数据…</p>
+                      <div class="sample-meta" id="sample-meta">
+                        <span>150 行</span><span>5 字段</span><span>3 个品种</span>
+                      </div>
+                    </div>
+                    <button class="button button-small button-quiet" id="sample-load" type="button" disabled>
+                      载入
+                    </button>
+                  </div>
+                  <p class="source-credit">
+                    Fisher (1936) · UCI Machine Learning Repository ·
+                    <a href="https://doi.org/10.24432/C56C76" target="_blank" rel="noreferrer">DOI 10.24432/C56C76</a>
+                  </p>
+
+                  <div class="or-divider"><span>或导入你的公开 CSV</span></div>
+
+                  <input id="file-input" type="file" accept=".csv,text/csv" hidden />
+                  <button class="dropzone" id="dropzone" type="button">
+                    <span class="dropzone-icon">
+                      <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
+                    </span>
+                    <span class="dropzone-title">拖入 CSV 或点击选择</span>
+                    <span class="dropzone-help">UTF-8 · 逗号分隔 · 不超过 5 MB</span>
+                  </button>
+                  <p class="privacy-inline">
+                    <svg class="icon" aria-hidden="true"><use href="#icon-lock"></use></svg>
+                    原始文件只进入本机分析进程，不写入磁盘。
+                  </p>
+                </div>
+
+                <div class="inline-message is-error" id="data-error" role="alert" hidden>
+                  <svg class="icon" aria-hidden="true"><use href="#icon-warning"></use></svg>
+                  <div>
+                    <strong>这份数据暂时不能载入</strong>
+                    <p id="data-error-text"></p>
+                  </div>
+                  <button class="inline-close" id="data-error-close" type="button" aria-label="关闭错误提示">
+                    <svg class="icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+                  </button>
+                </div>
+
+                <div class="dataset-loaded" id="dataset-loaded" hidden>
+                  <div class="loaded-heading">
+                    <div class="loaded-name">
+                      <span class="loaded-icon">
+                        <svg class="icon" aria-hidden="true"><use href="#icon-database"></use></svg>
+                      </span>
+                      <div>
+                        <h3 id="loaded-name">iris.csv</h3>
+                        <p id="loaded-source">UCI Machine Learning Repository</p>
+                      </div>
+                    </div>
+                    <button class="text-button" id="change-data" type="button">
+                      <svg class="icon" aria-hidden="true"><use href="#icon-refresh"></use></svg>
+                      更换
+                    </button>
+                  </div>
+                  <div class="data-metrics">
+                    <div><strong id="metric-rows">—</strong><span>数据行</span></div>
+                    <div><strong id="metric-columns">—</strong><span>字段</span></div>
+                    <div><strong id="metric-missing">—</strong><span>缺失率</span></div>
+                    <div><strong id="metric-duplicates">—</strong><span>重复行</span></div>
+                  </div>
+                  <div class="schema-chips" id="schema-chips" aria-label="字段类型"></div>
+                  <div class="preview-head">
+                    <span>数据预览</span>
+                    <button class="text-button text-button-muted" id="preview-open" type="button">
+                      字段质量与完整预览
+                      <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+                    </button>
+                  </div>
+                  <div class="mini-table-wrap" id="mini-preview" aria-label="数据预览表格"></div>
+                  <p class="preview-note" id="preview-note">仅展示前 3 行；原始文件不离开本机。</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel question-panel" aria-labelledby="question-title">
+              <header class="panel-header">
+                <div class="panel-title">
+                  <span class="step-number">02</span>
+                  <div>
+                    <p class="panel-kicker">RESEARCH QUESTION</p>
+                    <h2 id="question-title">研究问题</h2>
+                  </div>
+                </div>
+                <span class="question-hint">一次聚焦一个可检验问题</span>
+              </header>
+              <div class="panel-body">
+                <label class="field-label" for="question-input">你想从数据中回答什么？</label>
+                <div class="textarea-wrap">
+                  <textarea
+                    id="question-input"
+                    rows="4"
+                    maxlength="300"
+                    placeholder="例如：不同品种的花瓣长度有差异吗？"
+                    aria-describedby="question-help"
+                  ></textarea>
+                  <span class="char-count" id="char-count">0 / 300</span>
+                </div>
+                <p class="field-help" id="question-help">请尽量写出分组字段或想关联的字段名称。</p>
+                <div class="suggestion-row" aria-label="推荐问题">
+                  <span class="suggestion-label">试试</span>
+                  <div class="suggestion-chips" id="suggestion-chips">
+                    <span class="chip-skeleton"></span>
+                    <span class="chip-skeleton short"></span>
+                  </div>
+                </div>
+                <div class="inline-message is-error" id="question-error" role="alert" hidden>
+                  <svg class="icon" aria-hidden="true"><use href="#icon-warning"></use></svg>
+                  <p id="question-error-text"></p>
+                </div>
+                <div class="privacy-contract">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-shield"></use></svg>
+                  <p id="model-privacy-note">
+                    演示模式不调用模型；所有统计由本地受控工具执行。原始数据行不会离开本机。
+                  </p>
+                </div>
+                <button class="run-button" id="run-button" type="button" disabled>
+                  <span class="run-button-label">开始分析</span>
+                  <span class="run-button-note" id="run-button-note">先选择数据并输入问题</span>
+                  <span class="run-button-icon">
+                    <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+                  </span>
+                </button>
+              </div>
+            </section>
+          </aside>
+
+          <div class="output-stack">
+            <section class="panel trace-panel" id="trace-panel" aria-labelledby="trace-title">
+              <header class="panel-header trace-header">
+                <div class="panel-title">
+                  <span class="step-number step-number-agent"><svg class="icon" aria-hidden="true"><use href="#icon-spark"></use></svg></span>
+                  <div>
+                    <p class="panel-kicker">AGENT TRACE / CONTROLLED TOOLS</p>
+                    <h2 id="trace-title">执行轨迹</h2>
+                  </div>
+                </div>
+                <div class="trace-header-right">
+                  <span class="state-chip state-idle" id="run-state">待运行</span>
+                </div>
+              </header>
+
+              <div class="trace-body">
+                <div class="mode-banner" id="mode-banner" role="status">
+                  <span class="mode-banner-icon"><svg class="icon" aria-hidden="true"><use href="#icon-info"></use></svg></span>
+                  <div>
+                    <strong id="mode-banner-title">正在读取运行模式</strong>
+                    <p id="mode-banner-text">正在检查后端是否配置了 DEEPSEEK_API_KEY。</p>
+                  </div>
+                </div>
+
+                <ol class="stepper" id="stepper" aria-label="Agent 执行步骤"></ol>
+
+                <div class="trace-empty" id="trace-empty">
+                  <div class="trace-empty-visual" aria-hidden="true">
+                    <span class="trace-orbit"></span>
+                    <span class="trace-core"><svg class="icon"><use href="#icon-spark"></use></svg></span>
+                    <span class="trace-node node-a"></span>
+                    <span class="trace-node node-b"></span>
+                    <span class="trace-node node-c"></span>
+                  </div>
+                  <div class="trace-empty-copy">
+                    <h3>等待一次可验证的分析</h3>
+                    <p>载入数据并提问后，这里会逐步显示 Agent 的每一步、调用的工具与真实输出。</p>
+                  </div>
+                  <div class="empty-flow">
+                    <span>检查数据</span><i></i><span>制定计划</span><i></i><span>执行</span><i></i><span>复核</span><i></i><span>报告</span>
+                  </div>
+                </div>
+
+                <div class="trace-live" id="trace-live" hidden>
+                  <div class="live-head">
+                    <div class="live-current">
+                      <span>当前步骤</span>
+                      <strong id="current-step">等待开始</strong>
+                    </div>
+                    <div class="elapsed">
+                      <span class="elapsed-dot"></span>
+                      已用时 <strong id="elapsed">0.0s</strong>
+                    </div>
+                  </div>
+
+                  <div class="plan-box" id="plan-box" hidden>
+                    <div class="plan-title">
+                      <span class="mono-kicker">PLAN</span>
+                      <strong id="plan-intent">分析计划</strong>
+                      <span class="plan-source" id="plan-source">本地规则</span>
+                    </div>
+                    <p id="plan-interpretation"></p>
+                    <ol id="plan-steps"></ol>
+                    <div class="plan-notes" id="plan-notes" hidden></div>
+                  </div>
+
+                  <div class="log-head">
+                    <span>实时记录</span>
+                    <span class="log-legend"><i></i>真实工具执行</span>
+                  </div>
+                  <ol class="trace-log" id="trace-log" aria-live="polite"></ol>
+
+                  <details class="tool-details" id="tool-details">
+                    <summary>
+                      <span class="tool-summary-left">
+                        <svg class="icon" aria-hidden="true"><use href="#icon-tool"></use></svg>
+                        工具调用与真实输出
+                        <span class="count-pill" id="tool-count">0</span>
+                      </span>
+                      <span class="tool-summary-hint">展开查看参数与原始 JSON</span>
+                    </summary>
+                    <div class="tool-call-list" id="tool-calls"></div>
+                  </details>
+
+                  <div class="verification-box" id="verification-box" hidden>
+                    <div class="verification-head">
+                      <span class="verification-icon"><svg class="icon" aria-hidden="true"><use href="#icon-check-circle"></use></svg></span>
+                      <div><strong>结果一致性校验</strong><p id="verification-summary"></p></div>
+                    </div>
+                    <div class="verification-checks" id="verification-checks"></div>
+                  </div>
+
+                  <div class="run-error" id="run-error" hidden>
+                    <div class="run-error-head">
+                      <svg class="icon" aria-hidden="true"><use href="#icon-warning"></use></svg>
+                      <div><strong id="run-error-title">分析未完成</strong><p id="run-error-message"></p></div>
+                    </div>
+                    <ul id="run-error-suggestions"></ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel report-panel" id="report-panel" aria-labelledby="report-title">
+              <header class="panel-header report-panel-header">
+                <div class="panel-title">
+                  <span class="step-number"><svg class="icon" aria-hidden="true"><use href="#icon-chart"></use></svg></span>
+                  <div>
+                    <p class="panel-kicker">RESULTS / REPRODUCIBLE REPORT</p>
+                    <h2 id="report-title">结果报告</h2>
+                  </div>
+                </div>
+                <div class="report-actions" id="report-actions" hidden>
+                  <a class="button button-small button-outline" id="export-md" href="#" download>
+                    <svg class="icon" aria-hidden="true"><use href="#icon-download"></use></svg>
+                    Markdown
+                  </a>
+                  <a class="button button-small button-outline" id="export-json" href="#" download>
+                    <svg class="icon" aria-hidden="true"><use href="#icon-code"></use></svg>
+                    JSON
+                  </a>
+                  <button class="button button-small button-dark" id="print-report" type="button">
+                    <svg class="icon" aria-hidden="true"><use href="#icon-printer"></use></svg>
+                    打印 / PDF
+                  </button>
+                </div>
+              </header>
+
+              <div class="report-body">
+                <div class="report-empty" id="report-empty">
+                  <div class="report-empty-sheet" aria-hidden="true">
+                    <div class="sheet-top"><span></span><span></span><span></span></div>
+                    <div class="sheet-kicker"></div>
+                    <div class="sheet-title"></div>
+                    <div class="sheet-title short"></div>
+                    <div class="sheet-rule"></div>
+                    <div class="sheet-grid">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <div class="sheet-chart">
+                      <i style="--h: 34%"></i><i style="--h: 55%"></i><i style="--h: 72%"></i><i style="--h: 48%"></i><i style="--h: 86%"></i><i style="--h: 61%"></i>
+                    </div>
+                    <div class="sheet-line"></div>
+                    <div class="sheet-line short"></div>
+                  </div>
+                  <div class="report-empty-copy">
+                    <span class="mono-kicker">NO REPORT YET</span>
+                    <h3>结果报告将在这里生成</h3>
+                    <p>完成一次分析后，你会看到可追溯的图表、样本量、统计量、结论与局限性。所有数字都来自实际工具输出。</p>
+                    <ul>
+                      <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>结论与证据 ID 一一对应</li>
+                      <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>可导出 Markdown 报告与 JSON 运行记录</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="report-running" id="report-running" hidden aria-live="polite">
+                  <div class="running-banner">
+                    <span class="running-spinner" aria-hidden="true"></span>
+                    <div>
+                      <strong>正在把一个科研问题变成可追溯的分析</strong>
+                      <p id="report-running-text">Agent 正在检查数据与构建受控分析计划…</p>
+                    </div>
+                  </div>
+                  <div class="skeleton-kpis"><span></span><span></span><span></span><span></span></div>
+                  <div class="skeleton-chart">
+                    <div class="skeleton-line w40"></div>
+                    <div class="skeleton-bars"><i></i><i></i><i></i><i></i><i></i></div>
+                  </div>
+                  <div class="skeleton-lines"><span></span><span></span><span class="short"></span></div>
+                </div>
+
+                <div class="report-error" id="report-error" hidden>
+                  <span class="report-error-icon"><svg class="icon" aria-hidden="true"><use href="#icon-warning"></use></svg></span>
+                  <span class="mono-kicker">ANALYSIS STOPPED</span>
+                  <h3 id="report-error-title">这次分析没有生成报告</h3>
+                  <p id="report-error-message"></p>
+                  <ul id="report-error-suggestions"></ul>
+                  <button class="button button-outline button-small" id="retry-button" type="button">
+                    <svg class="icon" aria-hidden="true"><use href="#icon-refresh"></use></svg>
+                    调整问题后重试
+                  </button>
+                </div>
+
+                <div class="report-content" id="report-content" hidden></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="method-section" id="method" aria-labelledby="method-title">
+        <div class="section-heading method-heading">
+          <div>
+            <p class="section-kicker">METHOD &amp; BOUNDARIES</p>
+            <h2 id="method-title">让每一步都能被看见</h2>
+          </div>
+          <p class="section-side-copy">
+            这是一个受控的科研分析工具，而不是会“自动写出看起来很像结论”的聊天框。
+          </p>
+        </div>
+        <div class="method-grid">
+          <article class="method-card">
+            <span class="method-icon"><svg class="icon" aria-hidden="true"><use href="#icon-tool"></use></svg></span>
+            <span class="method-index">01 / CONTROLLED TOOLS</span>
+            <h3>只有注册过的工具能运行</h3>
+            <p>模型只能选择工具、字段与参数；工具名、列名和取值都会在执行前被校验。模型生成的 Shell、Python 或 JavaScript 不会被运行。</p>
+            <div class="tool-chip-list">
+              <span>profile_dataset</span><span>missingness_report</span><span>group_summary</span><span>group_comparison</span><span>one_way_anova</span><span>correlation_analysis</span>
+            </div>
+          </article>
+          <article class="method-card">
+            <span class="method-icon"><svg class="icon" aria-hidden="true"><use href="#icon-lock"></use></svg></span>
+            <span class="method-index">02 / DATA BOUNDARY</span>
+            <h3>原始数据留在本机</h3>
+            <p>CSV 只进入当前 Node.js 进程的内存。若启用模型，只发送研究问题、字段结构、缺失率和聚合后的字段概况，不发送原始行。</p>
+            <div class="boundary-note">
+              <svg class="icon" aria-hidden="true"><use href="#icon-shield"></use></svg>
+              <span>仅支持公开、非涉密 CSV；不接入账号、数据库或云端文件存储。</span>
+            </div>
+          </article>
+          <article class="method-card">
+            <span class="method-icon"><svg class="icon" aria-hidden="true"><use href="#icon-file"></use></svg></span>
+            <span class="method-index">03 / EVIDENCE CHAIN</span>
+            <h3>结论必须回到一次工具调用</h3>
+            <p>每个关键发现都带证据 ID。运行记录保留工具名、字段、参数、耗时和真实输出；图表与报告数字由同一份工具结果生成。</p>
+            <div class="evidence-preview">
+              <span class="evidence-preview-label">EVIDENCE</span>
+              <code>group_summary</code>
+              <span class="evidence-arrow">→</span>
+              <code>one_way_anova</code>
+              <span class="evidence-arrow">→</span>
+              <code>call_002</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="source-section" id="data-source" aria-labelledby="source-title">
+        <div class="source-card">
+          <div class="source-main">
+            <span class="mono-kicker">OPEN DATA / DEMO SOURCE</span>
+            <h2 id="source-title">Iris，而且来源可查</h2>
+            <p>
+              内置示例使用 UCI Machine Learning Repository 的 Iris 数据集。我们只添加英文列名并映射类别标签，不修改测量值；
+              每个数据集都会记录 SHA-256，报告会显示来源、许可和已知数据注意事项。
+            </p>
+            <div class="source-tags">
+              <span><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>CC BY 4.0</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>150 行 · 无缺失</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>公开、无个人隐私</span>
+            </div>
+          </div>
+          <div class="source-links">
+            <a href="https://archive.ics.uci.edu/dataset/53/iris" target="_blank" rel="noreferrer">
+              <span>UCI 官方数据集页面</span>
+              <svg class="icon" aria-hidden="true"><use href="#icon-external"></use></svg>
+            </a>
+            <a href="https://doi.org/10.24432/C56C76" target="_blank" rel="noreferrer">
+              <span>数据 DOI · 10.24432/C56C76</span>
+              <svg class="icon" aria-hidden="true"><use href="#icon-external"></use></svg>
+            </a>
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">
+              <span>许可全文 · CC BY 4.0</span>
+              <svg class="icon" aria-hidden="true"><use href="#icon-external"></use></svg>
+            </a>
+          </div>
+        </div>
+        <p class="source-caveat">
+          <svg class="icon" aria-hidden="true"><use href="#icon-info"></use></svg>
+          UCI 页面说明其 iris.data 与 Fisher (1936) 论文有 2 条记录差异；本项目保留 UCI 原值以保证可复现，并在报告中注明。
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="brand-mark small" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M6 16.5V12M11 16.5V6.8M16 16.5V9.6M21 16.5V4.5" />
+            <path d="m4 9 4-3 5 2.2 6-4" class="brand-spark" />
+          </svg>
+        </span>
+        <div><strong>研数搭子 LabMate</strong><p>把一个科研问题，变成一份可复现的数据分析。</p></div>
+      </div>
+      <div class="footer-meta">
+        <span>科研赛道 · 实验与数据分析</span>
+        <span>探索性分析不替代统计咨询</span>
+        <button class="text-button text-button-muted" id="footer-help" type="button">方法与使用说明</button>
+      </div>
+    </footer>
+
+    <dialog class="modal" id="dataset-dialog" aria-labelledby="dataset-dialog-title">
+      <div class="modal-card">
+        <header class="modal-header">
+          <div>
+            <span class="mono-kicker">DATA PROFILE / LOCAL ONLY</span>
+            <h2 id="dataset-dialog-title">字段质量与数据预览</h2>
+          </div>
+          <button class="icon-button" data-close-dialog="dataset-dialog" type="button" aria-label="关闭">
+            <svg class="icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+          </button>
+        </header>
+        <div class="modal-body" id="dataset-dialog-body"></div>
+      </div>
+    </dialog>
+
+    <dialog class="modal" id="help-dialog" aria-labelledby="help-dialog-title">
+      <div class="modal-card modal-card-help">
+        <header class="modal-header">
+          <div>
+            <span class="mono-kicker">HOW IT WORKS / BOUNDARIES</span>
+            <h2 id="help-dialog-title">研数搭子怎么工作</h2>
+          </div>
+          <button class="icon-button" data-close-dialog="help-dialog" type="button" aria-label="关闭">
+            <svg class="icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+          </button>
+        </header>
+        <div class="modal-body help-body">
+          <div class="help-steps">
+            <div><span>01</span><strong>检查数据</strong><p>读取字段、缺失率、重复行和基础分布。</p></div>
+            <div><span>02</span><strong>理解与规划</strong><p>判断问题适合分组比较还是相关分析；无 Key 时用本地规则，配置后由 DeepSeek 通过官方 API 的 tool calls 选择工具。</p></div>
+            <div><span>03</span><strong>执行与复核</strong><p>调用受控统计工具；独立复算分组均值和相关系数，再生成报告。</p></div>
+          </div>
+          <div class="help-boundary">
+            <h3>本版支持的边界</h3>
+            <ul>
+              <li>一个分类字段 × 一个数值字段的组间差异（两组 Welch t，三组及以上 ANOVA）</li>
+              <li>2–8 个数值字段的 Pearson / Spearman 相关</li>
+              <li>CSV、公开数据、单机内存；不支持 PDF 论文解析、网页搜索、登录、数据库、因果推断或预测建模</li>
+            </ul>
+          </div>
+          <div class="help-modes">
+            <div><span class="mode-badge is-demo"><span class="mode-dot"></span>演示模式</span><p>后端没有有效 <code>DEEPSEEK_API_KEY</code>（包括仍是模板占位值）时启用。不调用模型，使用本地确定性规则规划；统计工具真实执行，界面会明确标注。</p></div>
+            <div><span class="mode-badge is-model"><span class="mode-dot"></span>DeepSeek 工具调用</span><p>在后端 <code>.env</code> 配置 <code>DEEPSEEK_API_KEY</code> 后启用。只连接 DeepSeek 官方 API；通过原生 tool calls 选择受控分析工具，不生成统计数字。</p></div>
+          </div>
+          <p class="help-note">仅连接 <code>https://api.deepseek.com</code>，不配置其他厂商或国外模型端点。DeepSeek 不接收原始 CSV 行；只接收研究问题、字段结构和聚合概况。模型返回的工具参数必须通过后端注册表校验后才会执行。</p>
+        </div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <p class="sr-only" id="live-status" aria-live="polite"></p>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
